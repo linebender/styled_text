@@ -1,0 +1,25 @@
+[package]
+name = "styled_text"
+version.workspace = true
+license.workspace = true
+edition.workspace = true
+description = "A library for working with rich text"
+keywords = ["text", "style", "rich text"]
+categories = ["graphics", "text"]
+repository.workspace = true
+rust-version.workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+# There are no platform specific docs.
+default-target = "x86_64-unknown-linux-gnu"
+targets = []
+
+[features]
+default = ["std"]
+std = []
+
+[dependencies]
+
+[lints]
+workspace = true
