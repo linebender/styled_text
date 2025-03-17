@@ -18,10 +18,10 @@
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 #![no_std]
 
-#[cfg(test)]
-mod tests {
-    // CI will fail unless cargo nextest can execute at least one test per workspace.
-    // Delete this dummy test once we have an actual real test.
-    #[test]
-    fn dummy_test_until_we_have_a_real_test() {}
-}
+extern crate alloc;
+
+mod attributed_text;
+mod text_storage;
+
+pub use crate::attributed_text::{ApplyAttributeError, AttributedText};
+pub use crate::text_storage::TextStorage;
