@@ -3,7 +3,7 @@
 
 use alloc::vec::Vec;
 use core::fmt::Debug;
-use core::ops::{Bound, RangeBounds};
+use core::ops::Range;
 
 use crate::TextStorage;
 
@@ -20,19 +20,11 @@ pub enum ApplyAttributeError {
     InvalidBounds,
 }
 
-/// An attribute and the bounds of the range to which it has been applied.
-#[derive(Debug)]
-struct RangedAttribute<Attr: Debug> {
-    start: Bound<usize>,
-    end: Bound<usize>,
-    attribute: Attr,
-}
-
 /// A block of text with attributes applied to ranges within the text.
 #[derive(Debug)]
 pub struct AttributedText<T: Debug + TextStorage, Attr: Debug> {
     text: T,
-    attributes: Vec<RangedAttribute<Attr>>,
+    attributes: Vec<(Range<usize>, Attr)>,
 }
 
 impl<T: Debug + TextStorage, Attr: Debug> AttributedText<T, Attr> {
@@ -45,27 +37,16 @@ impl<T: Debug + TextStorage, Attr: Debug> AttributedText<T, Attr> {
     }
 
     /// Apply an `attribute` to a `range` within the text.
-    pub fn apply_attribute<R>(
+    pub fn apply_attribute(
         &mut self,
-        range: R,
+        range: Range<usize>,
         attribute: Attr,
-    ) -> Result<(), ApplyAttributeError>
-    where
-        R: RangeBounds<usize>,
-    {
-        let rend = match range.end_bound() {
-            Bound::Included(end) => end + 1,
-            Bound::Excluded(end) => *end,
-            Bound::Unbounded => self.text.len(),
-        };
-        if rend > self.text.len() {
+    ) -> Result<(), ApplyAttributeError> {
+        let text_len = self.text.len();
+        if range.start > text_len || range.end > text_len {
             return Err(ApplyAttributeError::InvalidBounds);
         }
-        self.attributes.push(RangedAttribute {
-            start: range.start_bound().cloned(),
-            end: range.end_bound().cloned(),
-            attribute,
-        });
+        self.attributes.push((range, attribute));
         Ok(())
     }
 
@@ -73,12 +54,11 @@ impl<T: Debug + TextStorage, Attr: Debug> AttributedText<T, Attr> {
     ///
     /// This doesn't handle conflicting attributes, it just reports everything.
     ///
-    /// TODO: Decide if this should also return the range bounds, and if so,
-    /// should it return them as `Bound` or as the resolved `usize` values.
+    /// TODO: Decide if this should also return the spans' ranges.
     pub fn attributes_at(&self, index: usize) -> impl Iterator<Item = &Attr> {
-        self.attributes.iter().filter_map(move |ra| {
-            if (ra.start, ra.end).contains(&index) {
-                Some(&ra.attribute)
+        self.attributes.iter().filter_map(move |(attr_span, attr)| {
+            if attr_span.contains(&index) {
+                Some(attr)
             } else {
                 None
             }
@@ -89,42 +69,11 @@ impl<T: Debug + TextStorage, Attr: Debug> AttributedText<T, Attr> {
     ///
     /// This doesn't handle conflicting attributes, it just reports everything.
     ///
-    /// TODO: Decide if this should also return the range bounds, and if so,
-    /// should it return them as `Bound` or as the resolved `usize` values.
-    pub fn attributes_for_range<R>(&self, range: R) -> impl Iterator<Item = &Attr>
-    where
-        R: RangeBounds<usize>,
-    {
-        fn bounds_to_indices(
-            start_bound: Bound<usize>,
-            end_bound: Bound<usize>,
-            container_length: usize,
-        ) -> (usize, usize) {
-            let start = match start_bound {
-                Bound::Included(start) => start,
-                Bound::Excluded(start) => start + 1,
-                Bound::Unbounded => 0,
-            };
-            let end = match end_bound {
-                Bound::Included(end) => end + 1,
-                Bound::Excluded(end) => end,
-                Bound::Unbounded => container_length,
-            };
-            (start, end)
-        }
-
-        let (range_start, range_end) = bounds_to_indices(
-            range.start_bound().cloned(),
-            range.end_bound().cloned(),
-            self.text.len(),
-        );
-
-        self.attributes.iter().filter_map(move |ra| {
-            let (attribute_start, attribute_end) =
-                bounds_to_indices(ra.start, ra.end, self.text.len());
-
-            if (attribute_start < range_end) && (attribute_end > range_start) {
-                Some(&ra.attribute)
+    /// TODO: Decide if this should also return the spans' ranges.
+    pub fn attributes_for_range(&self, range: Range<usize>) -> impl Iterator<Item = &Attr> {
+        self.attributes.iter().filter_map(move |(attr_span, attr)| {
+            if (attr_span.start < range.end) && (attr_span.end > range.start) {
+                Some(attr)
             } else {
                 None
             }
@@ -150,6 +99,10 @@ mod tests {
         assert_eq!(at.apply_attribute(0..6, TestAttribute::A), Ok(()));
         assert_eq!(
             at.apply_attribute(0..7, TestAttribute::A),
+            Err(ApplyAttributeError::InvalidBounds)
+        );
+        assert_eq!(
+            at.apply_attribute(7..8, TestAttribute::A),
             Err(ApplyAttributeError::InvalidBounds)
         );
     }
