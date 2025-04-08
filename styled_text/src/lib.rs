@@ -21,7 +21,9 @@
 extern crate alloc;
 
 mod attributed_text;
+mod edit_behavior;
 mod text_storage;
 
-pub use crate::attributed_text::{ApplyAttributeError, AttributedText};
-pub use crate::text_storage::TextStorage;
+pub use crate::attributed_text::{ApplyAttributeError, AttributedText, DeleteError};
+pub use crate::edit_behavior::{EditBehavior, SpanEditAction};
+pub use crate::text_storage::{EditableTextStorage, TextStorage};
