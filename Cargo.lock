@@ -9,6 +9,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dcfed56ad506cb2c684a14971b8861fdc3baaaae314b9e5f9bb532cbe3ba7a4f"
 
 [[package]]
+name = "attributed_text"
+version = "0.1.0"
+
+[[package]]
 name = "simple"
 version = "0.1.0"
 dependencies = [
@@ -19,3 +23,6 @@ dependencies = [
 [[package]]
 name = "styled_text"
 version = "0.1.0"
+dependencies = [
+ "attributed_text",
+]
