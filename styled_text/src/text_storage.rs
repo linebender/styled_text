@@ -3,7 +3,7 @@
 
 use alloc::string::String;
 use alloc::sync::Arc;
-use core::ops::Range;
+use core::ops::RangeBounds;
 
 /// A block of text that will be wrapped by an [`AttributedText`].
 ///
@@ -27,7 +27,14 @@ pub trait EditableTextStorage: TextStorage {
     /// Removes the specified range in the text, and replaces it with the specified text.
     ///
     /// The specified text doesn't need to the same length as the range.
-    fn replace_range(&mut self, range: Range<usize>, replacement_text: &str);
+    ///
+    /// # Panics
+    ///
+    /// Implementations of this should panic if the starting point or end
+    /// point do not lie on a [`char`] boundary, or if they're out of bounds.
+    fn replace_range<R>(&mut self, range: R, replacement_text: &str)
+    where
+        R: RangeBounds<usize>;
 }
 
 impl TextStorage for String {
@@ -49,7 +56,10 @@ impl TextStorage for Arc<str> {
 }
 
 impl EditableTextStorage for String {
-    fn replace_range(&mut self, range: Range<usize>, replacement_text: &str) {
+    fn replace_range<R>(&mut self, range: R, replacement_text: &str)
+    where
+        R: RangeBounds<usize>,
+    {
         Self::replace_range(self, range, replacement_text);
     }
 }
