@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["styled_text", "examples/simple"]
+members = ["attributed_text", "styled_text", "examples/simple"]
 
 [workspace.package]
 # Styled Text version, also used by other packages which want to mimic Styled Text's version.
@@ -65,4 +65,5 @@ clippy.wildcard_dependencies = "warn"
 # END LINEBENDER LINT SET
 
 [workspace.dependencies]
+attributed_text = { version = "0.1.0", path = "attributed_text", default-features = false }
 styled_text = { version = "0.1.0", path = "styled_text", default-features = false }

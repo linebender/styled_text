@@ -1,7 +1,7 @@
 // Copyright 2025 the Styled Text Authors
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
-//! Styled Text is a Rust crate which ...
+//! Attributed Text is a Rust crate which ...
 //!
 //! ## Features
 //!
@@ -18,4 +18,12 @@
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 #![no_std]
 
-pub use attributed_text::AttributedText;
+extern crate alloc;
+
+mod attributed_text;
+mod edit_behavior;
+mod text_storage;
+
+pub use crate::attributed_text::{ApplyAttributeError, AttributedText, DeleteError};
+pub use crate::edit_behavior::{EditBehavior, SpanEditAction};
+pub use crate::text_storage::{EditableTextStorage, TextStorage};

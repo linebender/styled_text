@@ -1,21 +1,21 @@
 <div align="center">
 
-# Styled Text
+# Attributed Text
 
-A library for working with styled text.
+A library for working with attributed text.
 
 [![Linebender Zulip, #parley channel](https://img.shields.io/badge/Linebender-%23parley-blue?logo=Zulip)](https://xi.zulipchat.com/#narrow/channel/205635-parley)
 [![dependency status](https://deps.rs/repo/github/linebender/styled_text/status.svg)](https://deps.rs/repo/github/linebender/styled_text)
 [![Apache 2.0 or MIT license.](https://img.shields.io/badge/license-Apache--2.0_OR_MIT-blue.svg)](#license)
 [![Build status](https://github.com/linebender/styled_text/workflows/CI/badge.svg)](https://github.com/linebender/styled_text/actions)
-[![Crates.io](https://img.shields.io/crates/v/styled_text.svg)](https://crates.io/crates/styled_text)
-[![Docs](https://docs.rs/styled_text/badge.svg)](https://docs.rs/styled_text)
+[![Crates.io](https://img.shields.io/crates/v/attributed_text.svg)](https://crates.io/crates/attributed_text)
+[![Docs](https://docs.rs/attributed_text/badge.svg)](https://docs.rs/attributed_text)
 
 </div>
 
 <!-- We use cargo-rdme to update the README with the contents of lib.rs.
 To edit the following section, update it in lib.rs, then run:
-cargo rdme --workspace-project=styled_text --heading-base-level=0
+cargo rdme --workspace-project=attributed_text --heading-base-level=0
 Full documentation at https://github.com/orium/cargo-rdme -->
 
 <!-- Intra-doc links used in lib.rs should be evaluated here.
@@ -23,7 +23,7 @@ See https://linebender.org/blog/doc-include/ for related discussion. -->
 [libm]: https://crates.io/crates/libm
 <!-- cargo-rdme start -->
 
-Styled Text is a Rust crate which ...
+Attributed Text is a Rust crate which ...
 
 ## Features
 

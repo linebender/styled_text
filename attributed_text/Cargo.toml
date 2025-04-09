@@ -1,10 +1,10 @@
 [package]
-name = "styled_text"
+name = "attributed_text"
 version.workspace = true
 license.workspace = true
 edition.workspace = true
-description = "A library for working with rich text"
-keywords = ["text", "style", "rich text"]
+description = "A library for working with attributed text"
+keywords = ["text", "rich text", "attributed text"]
 categories = ["graphics", "text"]
 repository.workspace = true
 rust-version.workspace = true
@@ -17,10 +17,9 @@ targets = []
 
 [features]
 default = ["std"]
-std = ["attributed_text/std"]
+std = []
 
 [dependencies]
-attributed_text.workspace = true
 
 [lints]
 workspace = true
