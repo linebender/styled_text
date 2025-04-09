@@ -1,8 +1,8 @@
 <div align="center">
 
-# Styled Text
+# Attributed and Styled Text
 
-A library for working with styled text.
+Libraries for attaching attributes to text and styling text.
 
 [![Linebender Zulip, #parley channel](https://img.shields.io/badge/Linebender-%23parley-blue?logo=Zulip)](https://xi.zulipchat.com/#narrow/channel/205635-parley)
 [![dependency status](https://deps.rs/repo/github/linebender/styled_text/status.svg)](https://deps.rs/repo/github/linebender/styled_text)
@@ -13,32 +13,16 @@ A library for working with styled text.
 
 </div>
 
-The Styled Text library provides functionality for working with styled text.
+This repository contains 2 crates:
 
-## Minimum supported Rust Version (MSRV)
-
-This version of Styled Text has been verified to compile with **Rust 1.85** and later.
-
-Future versions of Styled Text might increase the Rust version requirement.
-It will not be treated as a breaking change and as such can even happen with small patch releases.
-
-<details>
-<summary>Click here if compiling fails.</summary>
-
-As time has passed, some of Styled Text's dependencies could have released versions with a higher Rust requirement.
-If you encounter a compilation issue due to a dependency and don't want to upgrade your Rust toolchain, then you could downgrade the dependency.
-
-```sh
-# Use the problematic dependency's name and version
-cargo update -p package_name --precise 0.1.1
-```
-</details>
+* Attributed Text for text annotated with ranged attributes.
+* Styled Text for applying text styling to attributed text.
 
 ## Community
 
 [![Linebender Zulip](https://img.shields.io/badge/Xi%20Zulip-%23parley-blue?logo=Zulip)](https://xi.zulipchat.com/#narrow/channel/205635-parley)
 
-Discussion of Styled Text development happens in the [Linebender Zulip](https://xi.zulipchat.com/), specifically the [#parley channel](https://xi.zulipchat.com/#narrow/channel/205635-parley).
+Discussion about the development of these crates happens in the [Linebender Zulip](https://xi.zulipchat.com/), specifically the [#parley channel](https://xi.zulipchat.com/#narrow/channel/205635-parley).
 All public content can be read without logging in.
 
 ## License
